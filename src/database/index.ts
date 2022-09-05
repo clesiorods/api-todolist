@@ -1,6 +1,7 @@
 import { DataSource } from "typeorm";
+import { CreateUser1662380684496 } from "./migrations/1662380684496-CreateUser";
 
-export const dataSource = new DataSource({
+const dataSource = new DataSource({
     type: "mysql",
     host: "localhost",
     port: 3306,
@@ -8,7 +9,9 @@ export const dataSource = new DataSource({
     password: "",
     database: "tododb",
     entities: [],
-    migrations: [],
+    migrations: [
+        CreateUser1662380684496,
+    ],
 })
 
 dataSource.initialize();
