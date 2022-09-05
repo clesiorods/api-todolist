@@ -4,11 +4,11 @@ import { CreateUserService } from "../services/Create/userService";
 export class UsersController {
     async create(request: Request, response: Response): Promise<Response> {
         
-        const {nome, email, password} = request.body;
+        const {name, email, password} = request.body;
 
         try {
             const createUserService = new CreateUserService();
-            const users = await createUserService.execute({nome, email, password})
+            const users = await createUserService.execute({name, email, password})
 
             return response.status(201).json({success: true, message: "Usuário cadastrado com sucesso", object: users});
         } catch (error) {

@@ -1,4 +1,5 @@
 import { DataSource } from "typeorm";
+import { User } from "../entities/User";
 import { CreateUser1662380684496 } from "./migrations/1662380684496-CreateUser";
 
 const dataSource = new DataSource({
@@ -8,7 +9,9 @@ const dataSource = new DataSource({
     username: "root",
     password: "",
     database: "tododb",
-    entities: [],
+    entities: [
+        User
+    ],
     migrations: [
         CreateUser1662380684496,
     ],

@@ -1,21 +1,40 @@
+import { hash } from "bcryptjs";
+import { Repository } from "typeorm";
+import dataSource from "../../database";
+import { User } from "../../entities/User";
+
 interface IUsers {
-    nome:string,
-    email:string,
-    password:string
+    name: string,
+    email: string,
+    password: string
 }
 
 class CreateUserService {
 
-    private users = [];
+    private userRepository: Repository<User>;
 
-    public async execute({nome, email, password}:IUsers): Promise <IUsers[]> {
-        if(!nome || !email || !password) {
+    constructor() {
+        this.userRepository = dataSource.getRepository(User);
+    }
+
+    public async execute({ name, email, password }: IUsers): Promise<User> {
+        if (!name || !email || !password) {
             throw new Error("Dados incompletos");
         }
-        
-        this.users.push({nome, email, password});
-    
-        return this.users
+
+        const hashedPassword = await hash(password, 8);
+
+        const user = this.userRepository.create(
+            {
+                name,
+                email, 
+                password: hashedPassword,
+                is_active: 1
+            });
+
+            await this.userRepository.save(user);
+
+        return user;
     }
 }
 
