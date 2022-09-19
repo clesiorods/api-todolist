@@ -33,10 +33,11 @@ export class TodoController {
 
 
     async show(request: Request, response: Response): Promise<Response> {
-        const {id, user_id} = request.body;
+        const {user_id} = request.body;
+        const { id } = request.params;
         try {
             const showTodoService = new ShowTodoService();
-            const todo = await showTodoService.execute({id, user_id})
+            const todo = await showTodoService.execute({id: Number(id), user_id})
 
             return response.status(200).json({success: true, object: todo});
         } catch (error) {
