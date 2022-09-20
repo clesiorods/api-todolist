@@ -18,6 +18,9 @@ class CreateUserService {
     }
 
     public async execute({ name, email, password }: IUsers): Promise<User> {
+
+        // console.log(name, email, password);
+
         if (!name || !email || !password) {
             throw new Error("Dados incompletos");
         }

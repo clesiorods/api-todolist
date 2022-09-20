@@ -17,7 +17,7 @@ interface IResponse {
 }
 
 
-export class AutenticatedUserService {
+export class AuthenticatedUserService {
 
     private usersRepository: Repository<User>
 

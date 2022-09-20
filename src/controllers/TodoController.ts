@@ -5,10 +5,12 @@ import { ShowTodoService } from "../services/Create/ShowTodoService";
 
 export class TodoController {
     async create(request: Request, response: Response): Promise<Response> {
-        const {name, description, user_id, category_id} = request.body;
+        const {name, description, category_id} = request.body;
+        const { id } = request.user;
+        
         try {
             const createTodoService = new CreateTodoService();
-            const todo = await createTodoService.execute({name, description, user_id, category_id})
+            const todo = await createTodoService.execute({name, description, user_id: Number(id), category_id})
 
             return response.status(201).json({success: true, message: "Nova To Do list cadastrada", object: todo});
         } catch (error) {
@@ -19,10 +21,10 @@ export class TodoController {
 
 
     async listAll(request: Request, response: Response): Promise<Response> {
-        const {user_id} = request.body;
+        const {id} = request.user;
         try {
             const listAllTodoService = new ListTodoService();
-            const todos = await listAllTodoService.execute({user_id})
+            const todos = await listAllTodoService.execute({user_id: Number(id)})
 
             return response.status(200).json({success: true, object: todos});
         } catch (error) {
@@ -33,11 +35,11 @@ export class TodoController {
 
 
     async show(request: Request, response: Response): Promise<Response> {
-        const {user_id} = request.body;
+        const user_id = request.user.id;
         const { id } = request.params;
         try {
             const showTodoService = new ShowTodoService();
-            const todo = await showTodoService.execute({id: Number(id), user_id})
+            const todo = await showTodoService.execute({id: Number(id), user_id: Number(user_id)});
 
             return response.status(200).json({success: true, object: todo});
         } catch (error) {
